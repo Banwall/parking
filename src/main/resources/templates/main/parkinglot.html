@@ -1,0 +1,65 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="parkingLotInfo">
+	<body>
+		<div class="card ml30" id="parkingLotInfo">
+			<div class="mapDiv" id="map"></div>
+			
+			<div class="card flex InfoDiv">
+			
+				<div class="parkingLotNm">
+					<h2 id="parkingLotNm">주차장 이름</h2>
+				</div>
+			
+				<div class="card defaultInfo">
+					<h2 class="h2Center">주차장 정보</h2>
+					<div class="mt30">
+						<div>
+							<span>총 주차면</span>
+							<span class="ml50" id="parkingSpotAll">00 대</span>
+						</div>
+						<div>
+							<span>총 장애우 주차면</span>
+							<span class="ml50" id="parkingSpotD">00 대</span>
+						</div>
+						<div>
+							<span>총 전기차 주차면</span>
+							<span class="ml50" id="parkingSpotE">00 대</span>
+						</div>
+					</div>
+				</div>
+				
+				<div class="card useInfo">
+					<h2 class="h2Center">주차면 이용정보</h2>
+					<div class="mt30">
+						<div>
+							<span>이용중인 장애우 주차면</span>
+							<span class="ml30" id="parkingSpotUseD">00 대</span>
+						</div>
+						<div>
+							<span>이용중인 전기차 주차면</span>
+							<span class="ml30" id="parkingSpotUseE">00 대</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="ml10 mt30">
+				<div class="mr-10">
+					<select class="select1" id="chartCdSelect">
+						<option>전체보기</option>
+						<option>장애우</option>
+						<option>전기차</option>
+						<option>일반차</option>
+					</select>
+				</div>
+				
+				<div>
+					<canvas id="myChart1234" width="1400" height="270"></canvas>
+				</div>
+			</div>
+		</div>
+	</body>
+</th:block>
+
+</html>
