@@ -21,7 +21,6 @@ public class MainController {
 	public ModelAndView main(ModelAndView mv) {
 
 		List<ParkingLot> plList = plService.getParkingLotList(null);
-		
 		mv.addObject("plList", plList);
 		mv.setViewName("main/main");
 		

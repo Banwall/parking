@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.qst.mapper.UserMapper">
+
+	<insert id="saveUser" parameterType="UserVo">
+		/* getParkingLotInfo 쿼리 실행 */
+		INSERT INTO user
+		( USER_ID
+		, USER_PWD
+		, USER_NAME
+		, USER_AUTH
+		, USER_PHONE
+		, CDT)
+		VALUES
+		(	#{userId}
+	   ,	#{userPwd}
+	   ,	#{userName}
+	   ,	#{userAuth}
+	   ,	#{userPhone}
+	   ,	NOW()
+	   )
+	</insert>
+
+	<select id="getUserAccount" resultType="UserVo">
+		SELECT * FROM user
+		WHERE USER_ID = #{userId}
+	</select>
+</mapper>
