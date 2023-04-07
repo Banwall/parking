@@ -6,27 +6,133 @@
 		
 <mapper namespace="com.qst.mapper.UserMapper">
 
-	<insert id="saveUser" parameterType="UserVo">
-		/* getParkingLotInfo 쿼리 실행 */
-		INSERT INTO user
-		( USER_ID
-		, USER_PWD
-		, USER_NAME
-		, USER_AUTH
-		, USER_PHONE
-		, CDT)
-		VALUES
-		(	#{userId}
-	   ,	#{userPwd}
-	   ,	#{userName}
-	   ,	#{userAuth}
-	   ,	#{userPhone}
-	   ,	NOW()
-	   )
+	<select id="duplicateIdCheck" resultType="User">
+		/* duplicateIdCheck 쿼리 시작 */
+		SELECT
+			user_id
+		,	approve_yn
+		FROM users
+		WHERE user_id = #{value}
+	</select>
+
+	<select id="duplicateCompanyAndRole" resultType="int">
+		/* duplicateCompanyAndRole 쿼리 시작 */
+		SELECT COUNT(*)
+		FROM users
+		WHERE user_company = #{userCompany} AND user_role = '슈퍼 관리자'
+	</select>
+
+	<insert id="registerUser" parameterType="User">
+		/* registerUser 쿼리 시작 */
+		INSERT INTO users
+		(
+		 	user_id
+		,	user_pwd
+		,	user_company
+		,	user_name
+		,	user_phone
+		,	user_role
+		,	use_yn
+		,	approve_yn
+		,	cdt
+		 ,	mdt
+		) VALUES
+		(
+		 	#{userId}
+		,	#{userPwd}
+		,	#{userCompany}
+		,	#{userName}
+		,	#{userPhone}
+		,	#{userRole}
+		,	'Y'
+		,	'N'
+		,	NOW()
+		,	NOW()
+		)
 	</insert>
 
-	<select id="getUserAccount" resultType="UserVo">
-		SELECT * FROM user
-		WHERE USER_ID = #{userId}
+	<select id="getUserInfo" resultType="User">
+		/* getUserInfo 쿼리 시작 */
+		SELECT
+			user_id
+		,	user_pwd
+		,	user_company
+        ,	user_name
+        ,   user_phone
+        ,   user_role
+        ,   use_yn
+        ,   approve_yn
+        ,   cdt
+        ,   mdt
+		FROM users
+		WHERE user_id = #{userId}
 	</select>
+
+	<select id="getUserList" resultType="User">
+		/* getUserList 쿼리 시작 */
+		SELECT
+			u.user_id
+		,	u.user_name
+		,	u.user_phone
+		,	u.user_role
+		,	u.use_yn
+		,	u.approve_yn
+		,	u.approve_time
+		,	u.cdt
+		,	u.mdt
+		,	pll.parking_lot_id
+		,	COUNT(pll.parking_lot_id) -1 AS managerParkingLotCount
+		FROM users u
+		LEFT JOIN parking_lot_list pll
+			ON u.user_id = pll.user_id
+		WHERE u.user_company = #{company}
+			AND u.approve_yn = 'Y'
+			AND u.user_role = '일반 관리자'
+		GROUP BY u.user_id
+		ORDER BY u.cdt
+	</select>
+
+	<update id="deleteUser" parameterType="List">
+		/* deleteUser 쿼리 시작 */
+		<foreach collection="userIdList" item="item" separator=";">
+			UPDATE users SET
+				use_yn = 'N'
+			,	mdt = NOW()
+			WHERE user_id = #{item}
+		</foreach>
+	</update>
+
+	<update id="useUser" parameterType="List">
+		/* useUser 쿼리 시작 */
+		<foreach collection="userIdList" item="item" separator=";">
+			UPDATE users SET
+				use_yn = 'Y'
+			,	mdt = NOW()
+			WHERE user_id = #{item}
+		</foreach>
+	</update>
+
+	<select id="getApproveList" resultType="User">
+		/* getApproveList 쿼리 시작 */
+		SELECT
+			user_id
+		,	user_name
+		,	user_phone
+		,	cdt
+		FROM users
+		WHERE user_company = #{company}
+			AND approve_yn = 'N'
+		ORDER BY cdt
+	</select>
+
+	<update id="approveUser" parameterType="List">
+		/* approveUser 쿼리 시작 */
+		<foreach collection="userIdList" item="item" separator=";">
+			UPDATE users SET
+				approve_yn = 'Y'
+			,	approve_time = NOW()
+			WHERE user_id = #{item}
+		</foreach>
+	</update>
+
 </mapper>

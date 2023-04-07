@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>주차장 대시보드</title>
+	<link rel="stylesheet" href="/css/app/main/main.css">
+</head>
+
+<body>
+	<div id="registerPopDiv" style="display: none;">
+		<div class="modalLayer"></div>
+
+		<div class="registerCard">
+			<div class="registerForm">
+				<p> <span>회원가입</span> </p>
+
+				<div class="registerIdDiv" style="top: 15%;">
+					<label for="registerId">아이디 : <small id="idCheckText"></small> </label>
+					<input type="text" id="registerId"/>
+					<button id="duplicateId">중복 확인</button>
+				</div>
+
+				<div class="registerPwdDiv" style="top: 31%;">
+					<label for="registerPwd">패스워드 :</label>
+					<input type="password" id="registerPwd"/>
+				</div>
+
+				<div class="registerPwdCheckDiv" style="top: 47%;">
+					<label for="registerPwdCheck">패스워드 확인 : <small id="pwdCheckText">비밀번호가 일치하지 않습니다.</small> </label>
+					<input type="password" id="registerPwdCheck"/>
+				</div>
+
+				<div class="registerCompanyDiv">
+					<label for="registerCompany">회원사 :</label>
+					<input type="text" id="registerCompany"/>
+
+					<label for="registerRole">권한 :</label>
+					<select id="registerRole">
+						<option value="User"> 일반 관리자 </option>
+						<option value="Admin"> 슈퍼 관리자 </option>
+					</select>
+				</div>
+
+				<div class="registerAdminDiv">
+					<label for="registerName">관리자 : </label>
+					<input type="text" id="registerName" style="width: 120px; margin-left: 5px;"/>
+
+					<label for="registerPhone">핸드폰 번호 :</label>
+					<input type="text" id="registerPhone" style="width: 110px;"/>
+				</div>
+
+				<div class="registerBtnDiv">
+					<button onclick="location.reload();">로그인</button>
+					<button id="registerBtn">회원가입</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

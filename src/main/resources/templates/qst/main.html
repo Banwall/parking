@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/css/app/main/main.css">
+	<title>주차장 대시보드</title>
+</head>
+
+<body>
+	<th:block th:replace="layout/header"></th:block>
+
+	<main>
+		<div class="parkingLotListCard">
+			<div class="selectCompanyDiv">
+				<label for="selectCompany">회원사 : </label>
+				<select id="selectCompany">
+					<option value="notChoose">-- 선택 --</option>
+					<option th:each="list : ${companyList}" th:value="${list.userCompany}" th:text="${list.userCompany}"></option>
+				</select>
+			</div>
+
+			<div class="companyAdmin">
+				<span></span>
+			</div>
+
+			<div style="width: 100%; height: 750px;">
+				<ul id="companyUl">
+					<li th:each="list : ${parkingLotList}" th:text="${#strings.setSplit(list.parkingLotId, '_')[1].replace('-', ' ')}"
+						th:data-parking-lot-id="${list.parkingLotId}" th:data-user-name="${list.userName}">
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="parkingLotSensorInfoCard">
+			<div class="parkingLotInfoName">
+				<span id="parkingLotName" style="font-size: 28px">주차장 이름</span>
+				<small th:if="${session.user.userRole == '슈퍼 관리자'}" id="parkingLotManagerName" style="margin-left: 10px;">담당자 : 이름</small>
+			</div>
+
+			<div class="parkingLotImageDiv">
+
+			</div>
+		</div>
+	</main>
+</body>
+
+<script type="text/JavaScript" src="/js/lib/jquery.js"></script>
+<script type="text/JavaScript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script type="text/javascript" src="/js/app/main/main.js"></script>
+<script type="text/javascript" src="/js/app/qst/main.js"></script>
+
+<script th:inline="javascript">
+
+</script>
+</html>

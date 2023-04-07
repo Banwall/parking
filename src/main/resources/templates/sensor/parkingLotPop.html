@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>주차장 대시보드</title>
+	<link rel="stylesheet" href="/css/app/main/main.css">
+</head>
+
+<body>
+	<div id="parkingLotPopDiv" style="display: none;">
+		<div class="modalLayer"></div>
+
+		<div class="saveParkingLotCard">
+			<div class="saveParkingLotForm">
+				<div class="saveParkingLotInfoDiv">
+					<input type="hidden" id="hiddenNormalSensorCount">
+					<input type="hidden" id="hiddenElectronicSensorCount">
+					<input type="hidden" id="hiddenDisabledSensorCount">
+					<select id="saveSelectParkingLotName">
+						<option value="notChoose">-- 선택 --</option>
+					</select>
+					<input type="text" placeholder="직접입력" id="saveSelfParkingLotName">
+
+					<div class="saveParkingZoneDiv">
+						<div class="saveParkingLotZoneTypeDiv">
+							<label for="saveNormalZoneCount">일반차 면적 수</label>
+							<div>
+								<input type="checkbox" id="saveNormalCheckBox" value="N">
+								<input type="text" class="saveParkingLotTypeNumber" id="saveNormalZoneCount">
+							</div>
+						</div>
+
+						<div class="saveParkingLotZoneTypeDiv">
+							<label for="saveElectronicZoneCount">전기차 면적 수</label>
+							<div>
+								<input type="checkbox" id="saveElectronicCheckBox" value="E">
+								<input type="text" class="saveParkingLotTypeNumber" id="saveElectronicZoneCount">
+							</div>
+						</div>
+
+						<div class="saveParkingLotZoneTypeDiv">
+							<label for="saveDisabledZoneCount">장애인차 면적 수</label>
+							<div>
+								<input type="checkbox" id="saveDisabledCheckBox" value="D">
+								<input type="text" class="saveParkingLotTypeNumber" id="saveDisabledZoneCount">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="saveSensorListDiv">
+					<div class="saveNormalSensorList">
+						<div>
+							<span>일반차 구역 센서 리스트</span>
+							<img src="/image/subBtn.png" class="subBtnImage" id="subNormalSensor" style="cursor: pointer;">
+							<img src="/image/addBtn.png" class="addBtnImage" id="addNormalSensor" style="cursor: pointer;">
+						</div>
+						<table class="saveSensorListTable" id="saveNormalSensorListTable">
+							<thead>
+								<tr>
+									<th>IP</th>
+									<th>센서종류</th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div>
+
+					<div class="saveElectronicSensorList">
+						<div>
+							<span>전기차 구역 센서 리스트</span>
+							<img src="/image/subBtn.png" class="subBtnImage" id="subElectronicSensor" style="cursor: pointer;">
+							<img src="/image/addBtn.png" class="addBtnImage" id="addElectronicSensor" style="cursor: pointer;">
+						</div>
+						<table class="saveSensorListTable" id="saveElectronicSensorListTable">
+							<thead>
+								<tr>
+									<th>IP</th>
+									<th>센서종류</th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div>
+
+					<div class="saveDisabledSensorList">
+						<div>
+							<span>장애인차 구역 센서 리스트</span>
+							<img src="/image/subBtn.png" class="subBtnImage" id="subDisabledSensor" style="cursor: pointer;">
+							<img src="/image/addBtn.png" class="addBtnImage" id="addDisabledSensor" style="cursor: pointer;">
+						</div>
+						<table class="saveSensorListTable" id="saveDisabledSensorListTable">
+							<thead>
+								<tr>
+									<th>IP</th>
+									<th>센서종류</th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="parkingLotUserIdSaveBtn">
+					<label for="saveParkingLotUserId">담당자 ID : </label>
+					<input type="text" id="saveParkingLotUserId">
+					<button id="saveParkingLotInfo">저장</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

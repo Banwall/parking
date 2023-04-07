@@ -1,16 +1,53 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-	
-<th:block th:fragment="headerFragment">
-	<th:block th:replace="layout/loding :: loadingFragment"></th:block>
-	<header>
-		<div class="wrap">
-			<div class="title">
-				<p></p>
-			</div>
-		</div>
-	</header>
-</th:block>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="/css/app/layout/header.css">
+</head>
+<body>
+    <input type="hidden" id="hiddenSessionUserCompany" th:value="${session.user.userCompany}">
+    <input type="hidden" id="hiddenSessionUserRole" th:value="${session.user.userRole}">
+
+    <div class="page">
+        <header th:if="${session.user != null}">
+            <nav>
+                <ul>
+                    <li th:if="${session.user.userCompany != '큐센텍'}" id="headerDashboard"><a href="/main">대시보드</a></li>
+                    <li th:if="${session.user.userCompany == '큐센텍'}" id="headerCompanyDashboard"><a href="/company/main">대시보드</a></li>
+                    <th:block th:if="${session.user.userRole == '슈퍼 관리자' && session.user.userCompany != '큐센텍'}">
+                        <li id="headerSensorManager"><a href="/sensor/sensorManager">센서 관리</a></li>
+                        <li id="headerUserManager"><a href="/user/userManager">유저 관리</a></li>
+                    </th:block>
+                    <th:block th:if="${session.user.userCompany == '큐센텍'}">
+                        <li id="headerCompanyManager"><a href="/company/companyManager">회원사 관리</a></li>
+                    </th:block>
+                </ul>
+            </nav>
+
+            <th:block th:if="${session.user.userCompany != '큐센텍'}">
+                <span th:text="|${session.user.userName} 님|">관리자 님</span>
+            </th:block>
+
+            <button class="logoutBtn">로그아웃</button>
+        </header>
+    </div>
+</body>
+
+<script type="text/JavaScript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script type="text/JavaScript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script th:inline="javascript">
+    $(function() {
+        $(".logoutBtn").on("click", function() {
+            location.href = "/";
+        })
+
+        $(".modalLayer").on("click", function() {
+            $(this).parent().hide();
+        })
+    })
+</script>
 
 </html>

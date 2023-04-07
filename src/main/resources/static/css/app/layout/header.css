@@ -1,0 +1,107 @@
+@charset "UTF-8";
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: 0;
+}
+
+body {
+  height: 65px;
+  overflow: hidden;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  outline: none;
+}
+
+.page {
+  width: 100%;
+  margin: 0 auto;
+}
+
+html, body {
+  font-size: 14px;
+  font-family: 'NotoSansCJKkr', sans-serif;
+  color: #000;
+  overflow-x: hidden;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  background: #eee;
+}
+
+header {
+  background: #096eb2;
+  border-radius: 0 0 15px 15px;
+  margin-bottom: 10px;
+  width: 100%;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header > h2 {
+  margin-left:20px;
+}
+
+header > nav {
+  width:600px;
+  height:100%;
+}
+
+header ul {
+  width:100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+header ul > li {
+  font-size:20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin-left: 50px;
+}
+
+header ul > li > a {
+  display: block;
+  color: #002664;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 10px;
+  padding: 15px 20px;
+  cursor: pointer;
+}
+
+header span {
+  position: absolute;
+  right: 140px;
+  font-size: 20px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.active {
+  background-color: #eeeeee;
+  border-radius: 15px;
+  height: 50px;
+}
+
+.logoutBtn {
+  position: absolute;
+  right: 20px;
+  height: 35px;
+  width: 90px;
+  border: 0;
+}

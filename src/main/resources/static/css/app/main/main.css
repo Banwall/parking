@@ -1,6 +1,16 @@
 @charset "EUC-KR";
 
 /* 위치 조정 ***********************************************************************/
+
+.wrap {
+    width: 1720px;
+    margin: 0 auto;
+}
+
+table {
+    border-spacing: 0;
+}
+
 .mt10 { margin-top: 10px; }
 .mt20 { margin-top: 20px; }
 .mt30 { margin-top: 30px; }
@@ -34,27 +44,672 @@
 .w400 { width: 400px; }
 .w500 { width: 500px; }
 
+/* 회원가입 화면 ******************************************************************************/
+
+.modalLayer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+
+.registerForm {
+    width: 450px;
+    height: 450px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.registerForm span {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.registerIdDiv,
+.registerPwdDiv,
+.registerPwdCheckDiv {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+}
+
+.registerCompanyDiv {
+    top: 67%;
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 30px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.registerAdminDiv {
+    top: 77%;
+    position: absolute;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.registerBtnDiv {
+    position: absolute;
+    top: 95%;
+    left: 56%;
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.registerIdDiv input,
+.registerPwdDiv input,
+.registerPwdCheckDiv input {
+    width: 406px;
+    height: 30px;
+    margin-top: 10px;
+    padding: 0 20px;
+}
+
+.registerCompanyDiv input,
+.registerAdminDiv input {
+    height: 25px;
+}
+
+.registerCompanyDiv select {
+    height: 30px;
+}
+
+.registerIdDiv button {
+    position: absolute;
+    width: 90px;
+    height: 34px;
+    top: 31px;
+    right: 0;
+    border-radius: 5px;
+    border: 1px solid;
+    cursor: pointer;
+}
+
+.registerBtnDiv button {
+    height: 36px;
+    width: 90px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 0;
+}
+
+#pwdCheckText,
+#idCheckText {
+    display: none;
+    color: red;
+}
+
+/* 로그인 화면 ******************************************************************************/
+
+.loginCard, .registerCard {
+    width: 500px;
+    height: 500px;
+    background-color: white;
+    border-radius: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.loginForm {
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.loginForm input {
+    background-color: #eeeeee;
+    width: 360px;
+    height: 40px;
+    border-radius: 10px;
+    padding: 0 20px;
+    margin-top: 10px;
+    border: 0;
+}
+
+.loginForm button {
+    width: 400px;
+    height: 45px;
+    border-radius: 10px;
+    margin-top: 5px;
+    border: 0;
+    cursor: pointer;
+}
+
+.userIdDiv {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 35%;
+}
+
+.userPwdDiv {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 55%;
+}
+
+.btnDiv {
+    position: absolute;
+    top: 80%;
+}
+
 /* 메인 ******************************************************************************/
 
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+.parkingLotListCard {
+    width: 200px;
+    height: 800px;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    margin-left: 50px;
+    margin-top: 20px;
+    border-radius: 10px;
 }
 
-.h2Center {
-	text-align: center;
-	margin-top: 20px;
+#parkingLotListUl {
+    width: 100%;
+    margin-top: 70px;
 }
 
-.pLotList {
-	margin-top: 30px;
-	text-align: center;
-	font-weight: bold;
-	font-size: 100%;
-	list-style: none;
+.parkingLotListCard li {
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 20px;
+    background: rgba(238, 238, 238, 0.5);
+    height: 50px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
 }
 
-.default {
-	position: absolute;
+.parkingLotListCard li.on,
+.parkingLotListCard li:hover {
+    border: 1px solid #096eb2;
+    background: rgba(217, 232, 243, 0.5)
+}
+
+.parkingLotSensorInfoCard {
+    width: 1630px;
+    height: 800px;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    left: 14%;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.parkingLotSensorInfoCard {
+    display: none;
+}
+
+.parkingLotInfoName {
+    width: 100%;
+    height: 50px;
+    margin-left: 30px;
+    margin-top: 25px;
+}
+
+.parkingLotImageDiv {
+    display: flex;
+}
+
+.parkingLotImage {
+    width: 500px;
+    background: white;
+    height: 700px;
+    margin-left: 30px;
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 80%);
+}
+
+.sensorImgTable {
+    width: 500px;
+    height: 148px;
+}
+
+.sensorImgTable th {
+    background-color: #eeeeee;
+    border: 1px solid lightgray;
+    font-weight: normal;
+}
+
+.sensorImgTable td {
+    text-align: center;
+    border: 1px solid lightgray;
+    font-weight: normal;
+}
+
+/* 센서 관리 ******************************************************************************/
+
+.sensorListCard {
+    width: 1590px;
+    height: 800px;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    left: 14%;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.sensorListCard {
+    display: none;
+}
+
+.sensorListDiv {
+    width: 1540px;
+    overflow-y: scroll;
+    max-height: 420px;
+    margin-top: 40px;
+    padding-left: 40px;
+}
+
+.sensorListTable  {
+    border-collapse:collapse;border-spacing:0;
+}
+
+.sensorListTable thead tr th {
+    background-color:#eeeeee;
+    text-align:center;
+    vertical-align:top
+}
+
+.sensorListTable tbody tr td,
+.sensorListTable thead tr th {
+    border: 1px solid rgba(127, 127, 127, 0.2);
+    line-height: 48px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center !important;
+}
+
+.sensorListTable input {
+    border: 0;
+    text-align: center;
+}
+
+.yBtn {
+    width: 100%;
+    height: 60px;
+    font-weight: bold;
+    background: rgb(24, 206, 157);
+    border: 0;
+}
+
+.rBtn {
+    color: white;
+    width: 100%;
+    height: 60px;
+    font-weight: bold;
+    background: #ff00009e;
+    border: 0;
+}
+
+#saveParkingLot {
+    width: 100px;
+    height: 45px;
+    border: 0;
+    border-radius: 10px;
+    position: absolute;
+    left: 40%;
+    top: 93%;
+}
+
+.saveParkingLotCard {
+    width: 720px;
+    height: 420px;
+    background-color: white;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.saveParkingLotForm {
+    width: 690px;
+    height: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.saveParkingLotInfoDiv {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+#saveSelectParkingLotName {
+    width: 200px;
+    height: 25px;
+    border-radius: 5px;
+}
+
+#saveSelfParkingLotName {
+    height: 25px;
+    width: 120px;
+    margin-left: 20px;
+}
+
+.saveParkingZoneDiv {
+    display: flex;
+    width: 100%;
+}
+
+.saveParkingLotZoneTypeDiv {
+    display: flex;
+    flex-direction: column;
+}
+
+.saveParkingLotZoneTypeDiv div {
+    display: flex;
+}
+
+.saveParkingLotInfoDiv input[type=checkbox] {
+    width: 20px;
+    height: 25px;
+    margin-left: 15px;
+}
+
+.saveParkingZoneDiv label {
+    margin-left: 40px;
+    font-size: 12px;
+}
+
+.saveParkingLotTypeNumber {
+    height: 25px;
+    width: 100px;
+    margin-left: 7px;
+}
+
+.saveSensorListDiv {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    top: 25%;
+}
+
+.saveSensorListTable thead tr th {
+    background-color:#eeeeee;
+    text-align:center;
+    vertical-align:top
+}
+
+.saveSensorListTable tbody tr td,
+.saveSensorListTable thead tr th {
+    width: 100px;
+    border: 1px solid rgba(127, 127, 127, 0.2);
+    line-height: 38px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center !important;
+}
+
+.saveNormalSensorList,
+.saveElectronicSensorList,
+.saveDisabledSensorList {
+    overflow-y: scroll;
+    max-height: 220px;
+}
+
+.saveNormalSensorList div,
+.saveElectronicSensorList div,
+.saveDisabledSensorList div {
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sensorListBtnDiv {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+    padding: 40px;
+    width: 100%;
+}
+
+#saveSensorList {
+    width: 80px;
+    height: 48px;
+    color: #fff;
+    background: #096eb2;
+}
+
+#saveParkingLotUserId {
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 110px;
+}
+
+.parkingLotUserIdSaveBtn {
+    width: 690px;
+    display: flex;
+    top: 88%;
+    position: absolute;
+    justify-content: flex-end;
+}
+
+.saveSensorListDiv span {
+    font-size: 12px;
+}
+
+.clicked {
+    background-color: #999999;
+}
+
+/* 유저 관리 ******************************************************************************/
+
+.userManagerCard {
+    width: 1790px;
+    height: 800px;
+    margin-left: 50px;
+    margin-top: 20px;
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+}
+
+section {
+    display: none;
+    border-top: 1px solid #ddd;
+}
+
+.tabs input[type=radio] {
+    display: none;
+}
+
+.tabs label {
+    display: inline-block;
+    margin: 0 0 -1px;
+    padding: 15px 25px;
+    font-weight: 600;
+    text-align: center;
+    color: #bbb;
+    border: 1px solid transparent;
+}
+
+.tabs label:hover {
+    color: #2e9cdf;
+    cursor: pointer;
+}
+
+/*input 클릭시, label 스타일*/
+.tabs input:checked + label {
+    color: #555;
+    border: 1px solid #ddd;
+    border-top: 2px solid #2e9cdf;
+    border-bottom: 1px solid #ffffff;
+}
+
+#userList:checked ~ #userListSection,
+#approveList:checked ~ #approveListSection {
+    display: block;
+}
+
+.userUseYnBtnDiv,
+.approveBtnBtnDiv,
+.adminApproveBtnBtnDiv {
+    width: 1636px;
+    display: flex;
+    padding: 20px 40px;
+    justify-content: flex-end;
+}
+
+#useYUserBtn,
+#useNUserBtn,
+#approveBtn,
+#adminApproveBtn {
+    width: 70px;
+    height: 40px;
+    border: 0;
+    border-radius: 5px;
+}
+
+.userListDiv,
+.approveListDiv,
+.adminApproveListDiv {
+    display: flex;
+    padding: 0 40px;
+    justify-content: center;
+}
+
+.userListTable th,
+.approveListTable th,
+.adminApproveListTable th {
+    background-color: #efefef;
+    font-weight: bold;
+    padding: 20px 5px;
+    border-bottom: 2px solid #000000;
+}
+
+.userListTable td,
+.approveListTable td,
+.adminApproveListTable td {
+    border-color: black;
+    font-size: 14px;
+    padding: 20px 5px;
+    text-align:center;
+    border-bottom: 1px solid #000000;
+}
+
+.userListTable tr:last-child td,
+.approveListTable tr:last-child td,
+.adminApproveListTable tr:last-child td {
+    border-bottom: 2px solid #000000;
+}
+
+/* 큐센텍 메인 ******************************************************************************/
+
+.selectCompanyDiv {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.selectCompanyDiv select {
+    width: 100px;
+    height: 30px;
+}
+
+#companyUl {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.companyAdmin {
+    display: flex;
+    width: 100%;
+    height: 35px;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* 큐센텍 회원사 관리 ******************************************************************************/
+
+#companyList:checked ~ #companyListSection,
+#adminApproveList:checked ~ #adminApproveListSection {
+    display: block;
+}
+
+.companyListDiv,
+.companyUserListDiv {
+    width: 1408px;
+    height: 296px;
+    overflow: auto;
+    margin: 30px 40px 50px 195px;
+}
+
+.companyListTable th {
+    background-color: #efefef;
+    font-weight: bold;
+    padding: 20px 5px;
+    border-bottom: 2px solid #000000;
+}
+
+.companyListTable td {
+    border-color: black;
+    font-size: 14px;
+    padding: 20px 5px;
+    text-align:center;
+    border-bottom: 1px solid #000000;
+}
+
+.companyListTable tr:last-child td {
+    border-bottom: 2px solid #000000;
+}
+
+.companyListDiv::-webkit-scrollbar,
+.companyUserListDiv::-webkit-scrollbar {
+    width: 8px;
+}
+
+.companyListDiv::-webkit-scrollbar-thumb,
+.companyUserListDiv::-webkit-scrollbar-thumb {
+    height: 30%;
+    background: #a3caff;
+    border-radius: 10px;
+}
+
+.companyListDiv::-webkit-scrollbar-track,
+.companyUserListDiv::-webkit-scrollbar-track{
+    background: rgba(33, 122, 244, .1);
+}
+
+/* 공통 ******************************************************************************/
+
+.lprNumberDiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }

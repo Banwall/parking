@@ -23,25 +23,56 @@
 					<input type="hidden" id="hiddenDisabledZoneCount" th:value="${list.disabledZoonCount}">
 				</li>
 			</ul>
+
+			<button id="saveParkingLot">주차장 등록</button>
 		</div>
 
-		<div class="parkingLotSensorInfoCard">
-			<div class="parkingLotInfoName">
-				<span id="parkingLotName" style="font-size: 28px">주차장 이름</span>
-				<small th:if="${session.user.userRole == '슈퍼 관리자'}" id="parkingLotManagerName" style="margin-left: 10px;">담당자 : 이름</small>
+		<div class="sensorListCard">
+			<div class="sensorListDiv">
+				<table class="sensorListTable">
+					<colgroup>
+						<col style="width: 100px;">
+						<col style="width: 155px;">
+						<col style="width: 115px;">
+						<col style="width: 140px;">
+						<col style="width: 290px;">
+						<col style="width: 190px;">
+						<col style="width: 120px;">
+						<col style="width: 110px;">
+						<col style="width: 262px;">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>코드</th>
+							<th>IP</th>
+							<th>센서 타입</th>
+							<th>설치 위치</th>
+							<th>마지막 파일 명</th>
+							<th>마지막 파일 수신시간</th>
+							<th>현재상태</th>
+							<th>사용여부</th>
+							<th>미사용 이유</th>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
 			</div>
 
-			<div class="parkingLotImageDiv">
-
+			<div class="sensorListBtnDiv">
+				<button id="saveSensorList">저장</button>
 			</div>
 		</div>
 	</main>
+
+	<th:block th:replace="sensor/parkingLotPop"></th:block>
 </body>
 
 <script type="text/JavaScript" src="/js/lib/jquery.js"></script>
 <script type="text/JavaScript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<script type="text/javascript" src="/js/app/main/main.js"></script>
+<script type="text/javascript" src="/js/app/sensor/sensor.js"></script>
 
 <script th:inline="javascript">
 

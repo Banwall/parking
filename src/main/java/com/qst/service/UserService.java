@@ -1,41 +1,87 @@
 package com.qst.service;
 
-import com.qst.mapper.ParkingLotMapper;
 import com.qst.mapper.UserMapper;
-import com.qst.vo.ParkingLot;
-import com.qst.vo.UserVo;
-import lombok.RequiredArgsConstructor;
+import com.qst.util.UtilService;
+import com.qst.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserService {
 
 	@Autowired
-	UserMapper userMapper;
+	private UserMapper userMapper;
 
-	@Transactional
-	public void joinUser(UserVo userVo){
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		userVo.setUserPwd(passwordEncoder.encode(userVo.getPassword()));
-		userVo.setUserAuth("USER");
-		userMapper.saveUser(userVo);
+	@Autowired
+	private UtilService utilService;
+
+	public User duplicateIdCheck(String userId) {
+
+		return userMapper.duplicateIdCheck(userId);
 	}
 
-	@Override
-	public UserVo loadUserByUsername(String userId) throws UsernameNotFoundException {
-		//여기서 받은 유저 패스워드와 비교하여 로그인 인증
-		UserVo userVo = userMapper.getUserAccount(userId);
-		if (userVo == null){
-			throw new UsernameNotFoundException("User not authorized.");
+	public int registerUser(User user) {
+
+		user.setUserPwd(utilService.encrypt(user.getUserPwd(), "qsentech!1233", "3321!hcetnesq"));
+
+		if(user.getUserRole().equals("Admin")) {
+			user.setUserRole("슈퍼 관리자");
+		} else {
+			user.setUserRole("일반 관리자");
 		}
-		return userVo;
+
+		return userMapper.registerUser(user);
+	}
+
+	public User login(User user) {
+
+		String userId = user.getUserId();
+		String userPwd = user.getUserPwd();
+
+		try {
+			User userInfo = userMapper.getUserInfo(userId);
+			String decryptedString = utilService.decrypt(userInfo.getUserPwd(), "qsentech!1233", "3321!hcetnesq");
+
+			if(userPwd.equals(decryptedString)) {
+				return userInfo;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+    public List<User> getUserList(String company) {
+
+		return userMapper.getUserList(company);
+    }
+
+	public void deleteUser(List<String> userIdList) {
+
+		userMapper.deleteUser(userIdList);
+	}
+
+	public void useUser(List<String> userIdList) {
+
+		userMapper.useUser(userIdList);
+	}
+
+	public List<User> getApproveList(String company) {
+
+		return userMapper.getApproveList(company);
+	}
+
+	public void approveUser(List<String> userIdList) {
+
+		userMapper.approveUser(userIdList);
+	}
+
+	public int duplicateCompanyAndRole(User user) {
+
+		return userMapper.duplicateCompanyAndRole(user);
 	}
 }

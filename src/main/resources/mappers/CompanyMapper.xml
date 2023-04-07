@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.qst.mapper.CompanyMapper">
+
+	<select id="getCompanyList" resultType="User">
+		/* getCompanyList 쿼리 시작 */
+		SELECT
+			user_company
+		FROM users
+		WHERE user_company NOT IN ('큐센텍')
+		GROUP BY user_company
+	</select>
+
+	<select id="getCompanyListByAdmin" resultType="Company">
+		/* getCompanyListByAdmin 쿼리 시작 */
+		SELECT *
+		,	(SELECT COUNT(*) FROM users WHERE user_company = A.companyName AND user_role != '슈퍼 관리자') AS managerUserCount
+		,	(SELECT COUNT(*) FROM sensor_list WHERE use_yn = 'Y' AND parking_zone_area = 'n' AND parking_lot_id LIKE CONCAT(A.companyName, '%')) AS normalSensorTotalCount
+		,	(SELECT COUNT(*) FROM sensor_list WHERE use_yn = 'Y' AND parking_zone_area = 'e' AND parking_lot_id LIKE CONCAT(A.companyName, '%')) AS electronicSensorTotalCount
+		,	(SELECT COUNT(*) FROM sensor_list WHERE use_yn = 'Y' AND parking_zone_area = 'd' AND parking_lot_id LIKE CONCAT(A.companyName, '%')) AS disabledSensorTotalCount
+		FROM
+		(
+			SELECT
+				user_company AS companyName
+			,	user_id AS adminId
+			,	user_name AS adminName
+			,	user_phone AS adminPhone
+			,	cdt
+			FROM users
+			WHERE user_role = '슈퍼 관리자' AND approve_yn = 'Y' AND user_company NOT IN ('큐센텍')
+		) A
+	</select>
+
+	<select id="getAdminNameByCompany" resultType="String">
+		SELECT user_name AS adminName FROM users WHERE user_company = #{company} AND user_role = '슈퍼 관리자'
+	</select>
+
+	<select id="getAdminApproveList" resultType="User">
+		SELECT
+		    user_company
+		,	user_id
+		,	user_name
+		,	user_phone
+		,	approve_yn
+		,	cdt
+		FROM users
+		WHERE user_role = '슈퍼 관리자' AND approve_yn = 'N'
+	</select>
+
+</mapper>

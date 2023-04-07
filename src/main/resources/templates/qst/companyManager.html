@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/css/app/main/main.css">
+	<title>주차장 대시보드</title>
+</head>
+
+<body>
+	<th:block th:replace="layout/header"></th:block>
+
+	<main>
+		<div class="userManagerCard">
+			<div class="tabs">
+				<div class="main">
+					<input id="companyList" type="radio" name="tabs" checked>
+					<label for="companyList">회원사</label>
+
+					<input id="adminApproveList" type="radio" name="tabs">
+					<label for="adminApproveList">관리자 승인</label>
+
+					<section id="companyListSection">
+						<div class="companyListDiv">
+							<table class="companyListTable" style="width: 1400px">
+								<colgroup>
+									<col style="width: 105px">
+									<col style="width: 160px;">
+									<col style="width: 190px;">
+									<col style="width: 250px;">
+									<col style="width: 190px;">
+									<col style="width: 185px;">
+									<col style="width: 200px">
+									<col style="width: 200px">
+									<col style="width: 200px">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>회원사</th>
+										<th>관리자 ID</th>
+										<th>관리자 이름</th>
+										<th>관리자 번호</th>
+										<th>매니저 수</th>
+										<th>일반차 구역 센서 개수</th>
+										<th>전기차 구역 센서 개수</th>
+										<th>장애인 구역 센서 개수</th>
+										<th>생성일</th>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+							</table>
+						</div>
+
+						<div class="companyUserListDiv">
+							<table class="userListTable" style="width: 1400px">
+								<colgroup>
+									<col style="width: 115px;">
+									<col style="width: 105px">
+									<col style="width: 160px;">
+									<col style="width: 190px;">
+									<col style="width: 250px;">
+									<col style="width: 190px;">
+									<col style="width: 185px;">
+									<col style="width: 200px">
+									<col style="width: 200px">
+									<col style="width: 200px">
+								</colgroup>
+								<thead>
+								<tr>
+									<th></th>
+									<th>유저 ID</th>
+									<th>관리자 이름</th>
+									<th>관리자 번호</th>
+									<th>관리구역</th>
+									<th>관리자 권한</th>
+									<th>사용여부</th>
+									<th>승인일</th>
+									<th>생성일</th>
+									<th>수정일</th>
+								</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+							</table>
+						</div>
+					</section>
+
+					<section id="adminApproveListSection">
+						<div class="adminApproveBtnBtnDiv">
+							<button id="adminApproveBtn">승인</button>
+						</div>
+						<div class="adminApproveListDiv">
+							<table class="adminApproveListTable" style="width: 1400px">
+								<colgroup>
+									<col style="width: 115px;">
+									<col style="width: 160px;">
+									<col style="width: 105px">
+									<col style="width: 160px;">
+									<col style="width: 190px;">
+									<col style="width: 185px;">
+									<col style="width: 200px">
+								</colgroup>
+								<thead>
+								<tr>
+									<th></th>
+									<th>회원사</th>
+									<th>유저 ID</th>
+									<th>관리자 이름</th>
+									<th>관리자 번호</th>
+									<th>승인여부</th>
+									<th>승인요청일</th>
+								</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+							</table>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+
+<script type="text/JavaScript" src="/js/lib/jquery.js"></script>
+<script type="text/JavaScript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script type="text/javascript" src="/js/app/user/user.js"></script>
+<script type="text/javascript" src="/js/app/qst/companyManager.js"></script>
+
+<script th:inline="javascript">
+
+</script>
+</html>

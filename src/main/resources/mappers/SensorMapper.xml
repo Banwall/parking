@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.qst.mapper.SensorMapper">
+
+	<select id="getLastCodeByCompany" resultType="int">
+		/* getLastCodeByCompany 쿼리 시작 */
+		SELECT
+			IFNULL(MAX(sensor_id), 101)
+		FROM sensor_list
+		WHERE parking_lot_id LIKE #{value}
+	</select>
+
+	<select id="getSensorList" resultType="SensorList">
+		/* getSensorList 쿼리 시작 */
+		SELECT
+		    sensor_idx
+		,	sensor_id
+		,	parking_lot_id
+		,	sensor_type
+		,	ip
+		,	parking_zone_area
+		,	last_file_name
+		,	last_file_time
+		,	ping_value
+		,	use_yn
+		,	negative_reason
+		,	cdt
+		,	mdt
+		FROM sensor_list
+		WHERE parking_lot_id = #{parkingLotId}
+		ORDER BY sensor_idx
+	</select>
+
+	<update id="updateParkingLotInfo" parameterType="ParkingLotList">
+		/* updateParkingLotInfo 쿼리 시작 */
+		UPDATE parking_lot_list SET
+			user_id = #{userId}
+		,	parking_zone_type = #{parkingZoneType}
+		,	normal_zone_count = #{normalZoneCount}
+		,	electronic_zone_count = #{electronicZoneCount}
+		,	disabled_zone_count = #{disabledZoneCount}
+		,	mdt = NOW()
+		WHERE parking_lot_id = #{parkingLotId}
+	</update>
+
+	<insert id="insertParkingLotInfo" parameterType="ParkingLotList">
+		/* insertParkingLotInfo 쿼리 시작 */
+		INSERT INTO parking_lot_list
+		(
+			parking_lot_id
+		,	folder_structure
+		,	user_id
+		,	parking_zone_type
+		,	normal_zone_count
+		,	electronic_zone_count
+		,	disabled_zone_count
+		,	cdt
+		,	mdt
+		)
+		VALUES
+		(
+			#{parkingLotId}
+		,	#{folderStructure}
+		,	#{userId}
+		,	#{parkingZoneType}
+		,	#{normalZoneCount}
+		,	#{electronicZoneCount}
+		,	#{disabledZoneCount}
+		,	NOW()
+		,	NOW()
+		)
+	</insert>
+
+	<insert id="insertNormalSensorList" parameterType="List">
+		/* insertNormalSensorList 쿼리 시작 */
+		INSERT INTO sensor_list
+		(
+			sensor_id
+		,	parking_lot_id
+		,	sensor_type
+		,	ip
+		,	parking_zone_area
+		,	cdt
+		,	mdt
+		)
+		VALUES
+		<foreach collection="normalSensorList" item="item" separator=" , " >
+			(
+				#{item.sensorId}
+			,	#{item.parkingLotId}
+			,	#{item.sensorType}
+			,	#{item.ip}
+			,	#{item.parkingZoneArea}
+			,	NOW()
+			,	NOW()
+			)
+		</foreach>
+	</insert>
+
+	<update id="saveSensorList" parameterType="List">
+		/* saveSensorList 쿼리 시작 */
+		<foreach collection="sensorList" item="item" separator=";">
+			UPDATE sensor_list SET
+				sensor_type = #{item.sensorType}
+			,	ip = #{item.ip}
+			,	parking_zone_area = #{item.parkingZoneArea}
+			,	use_yn = #{item.useYn}
+			,	negative_reason = #{item.negativeReason}
+			,	mdt = NOW()
+			WHERE sensor_idx = #{item.sensorIdx}
+		</foreach>
+	</update>
+
+</mapper>

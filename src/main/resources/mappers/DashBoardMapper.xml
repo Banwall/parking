@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.qst.mapper.DashBoardMapper">
+
+	<select id="getParkingLotListByCompany" resultType="ParkingLotList">
+		/* getParkingLotListByCompany 쿼리 시작 */
+		SELECT
+			pll.parking_lot_id
+		,	pll.folder_structure
+		,	pll.user_id
+		,	pll.parking_zone_type
+		,	pll.normal_zone_count
+		,	pll.electronic_zone_count
+		,	pll.disabled_zone_count
+		,	pll.cdt
+		,	pll.mdt
+		,	u.user_name
+		,	(SELECT user_name FROM users WHERE user_company = #{userCompany} AND user_role = '슈퍼 관리자') AS `adminName`
+		FROM parking_lot_list pll
+		INNER JOIN users u
+			ON u.user_id = pll.user_id
+		WHERE pll.parking_lot_id LIKE CONCAT(#{userCompany}, '%')
+	</select>
+
+	<select id="getParkingLotListByManager" resultType="ParkingLotList">
+		/* getParkingLotListByManager 쿼리 시작 */
+		SELECT
+			parking_lot_id
+		,	folder_structure
+		,	user_id
+		,	parking_zone_type
+		,	normal_zone_count
+		,	electronic_zone_count
+		,	disabled_zone_count
+		,	cdt
+		,	mdt
+		FROM parking_lot_list
+		WHERE user_id = #{userId}
+	</select>
+
+	<select id="getParkingLotSensorInfo" resultType="SensorList">
+		/* getParkingLotSensorInfo 쿼리 시작 */
+		SELECT sl.sensor_id, sl.last_file_name, sl.parking_zone_area, ia.lpr, ia.vehicle, ia.lprnumber, sd.distance
+		FROM sensor_list sl
+		INNER JOIN img_analysis ia
+			ON ia.filename = sl.last_file_name
+		INNER JOIN sensor_data sd
+			ON sd.parking_lot_id = sl.parking_lot_id
+			AND sd.ip = sl.ip
+		WHERE sl.parking_lot_id = #{parkingLotId} AND sl.sensor_type = 'image'
+	</select>
+
+	<select id="getParkingLotInfo" resultType="ParkingLotList">
+		/* getParkingLotInfo 쿼리 시작 */
+		SELECT
+		    parking_lot_id
+		,	user_id
+		,	parking_zone_type
+		,	normal_zone_count
+		,	electronic_zone_count
+		,	disabled_zone_count
+		,	(SELECT COUNT(*) FROM sensor_list WHERE parking_lot_id = #{parkingLotId} AND parking_zone_area = 'n') AS normalSensorCount
+		,	(SELECT COUNT(*) FROM sensor_list WHERE parking_lot_id = #{parkingLotId} AND parking_zone_area = 'e') AS electronicSensorCount
+		,	(SELECT COUNT(*) FROM sensor_list WHERE parking_lot_id = #{parkingLotId} AND parking_zone_area = 'd') AS disabledSensorCount
+		FROM parking_lot_list
+		WHERE parking_lot_id = #{parkingLotId}
+	</select>
+
+</mapper>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.qst.mapper.AnalysisMapper">
+
+	<select id="getLastFileNames" resultType="Analysis">
+		SELECT last_file_name AS lastFileNames FROM `current`
+		WHERE use_yn = 'Y' AND last_file_name IS NOT NULL
+	</select>
+
+	<!--<select id="getImgAnalysis" resultType="Analysis">
+	/* getImgAnalysis 쿼리 실행 */
+		SELECT ia.*, isensor.distance AS distance FROM img_analysis ia LEFT JOIN img_sensordata isensor ON isensor.event_dt = ia.event_dt
+		WHERE ia.filename LIKE "__101%"
+		UNION
+		SELECT ia.*, isensor.distance AS distance FROM img_analysis ia LEFT JOIN img_sensordata isensor ON isensor.event_dt = ia.event_dt
+		WHERE ia.filename LIKE "__102%"
+		UNION
+		SELECT ia.*, isensor.distance AS distance FROM img_analysis ia LEFT JOIN img_sensordata isensor ON isensor.event_dt = ia.event_dt
+		WHERE ia.filename LIKE "__103%"
+		ORDER BY cdt DESC, CAST(SUBSTRING(filename, 3, 3) AS UNSIGNED) ASC
+		LIMIT 3
+	</select>-->
+
+	<select id="getImgAnalysis" resultType="Analysis">
+	/* getImgAnalysis 쿼리 실행 */
+		SELECT ia.*, subc.distance FROM img_analysis ia
+		INNER JOIN `current` subc
+			ON ia.filename = subc.last_file_name
+		WHERE ia.filename IN
+		<foreach collection="list" index="index" item="stringList" open="(" close=")" separator=",">
+			#{stringList}
+		</foreach>
+		ORDER BY CAST(SUBSTRING(ia.filename, 3, 3) AS UNSIGNED) DESC
+	</select>
+
+	<select id="get101ImgParkingFromTo" resultType="Analysis">
+		/* get101ImgParkingFromTo 쿼리 실행 */
+		<![CDATA[
+			SELECT CASE WHEN a.mdt IS NULL THEN CONCAT(TIMESTAMPDIFF(MINUTE, a.cdt, NOW()), '분째 주차중') END AS mdtNow, a.mdt, a.cdt
+			FROM(
+				SELECT ia.event_dt AS cdt, ia.lprnumber,
+					(SELECT
+						CASE
+							WHEN subia.lpr != '0001' THEN CONCAT(TIMESTAMPDIFF(MINUTE, ia.event_dt, subia.event_dt), '분동안 주차')
+							WHEN subia.lpr = '0001' THEN CONCAT(TIMESTAMPDIFF(MINUTE, ia.event_dt, subia.event_dt), '분째 주차중')
+						END AS mdt
+					FROM img_analysis subia
+					WHERE (subia.filename LIKE '__101%' AND ia.event_dt < subia.event_dt AND subia.lpr = '9999')
+					ORDER BY subia.event_dt ASC
+					LIMIT 1) AS mdt
+				FROM img_analysis ia
+				WHERE (ia.filename LIKE '__101%' AND ia.lpr != '9999' AND ia.event_dt >= DATE_ADD(NOW(), INTERVAL -1 DAY))
+				GROUP BY ia.lprnumber
+				ORDER BY ia.event_dt DESC
+				LIMIT 1
+			) a
+		]]>
+	</select>
+
+	<select id="get102ImgParkingFromTo" resultType="Analysis">
+		/* get102ImgParkingFromTo 쿼리 실행 */
+		<![CDATA[
+			SELECT CASE WHEN a.mdt IS NULL THEN CONCAT(TIMESTAMPDIFF(MINUTE, a.cdt, NOW()), '분째 주차중') END AS mdtNow, a.mdt, a.cdt
+			FROM(
+				SELECT ia.event_dt AS cdt, ia.lprnumber,
+					(SELECT
+						CASE
+							WHEN subia.lpr != '0001' THEN CONCAT(TIMESTAMPDIFF(MINUTE, ia.event_dt, subia.event_dt), '분동안 주차')
+							WHEN subia.lpr = '0001' THEN CONCAT(TIMESTAMPDIFF(MINUTE, ia.event_dt, subia.event_dt), '분째 주차중')
+						END AS mdt
+					FROM img_analysis subia
+					WHERE (subia.filename LIKE '__102%' AND ia.event_dt < subia.event_dt AND subia.lpr = '9999')
+					ORDER BY subia.event_dt ASC
+					LIMIT 1) AS mdt
+				FROM img_analysis ia
+				WHERE (ia.filename LIKE '__102%' AND ia.lpr != '9999' AND ia.event_dt >= DATE_ADD(NOW(), INTERVAL -1 DAY))
+				GROUP BY ia.lprnumber
+				ORDER BY ia.event_dt DESC
+				LIMIT 1
+			) a
+		]]>
+	</select>
+
+	<select id="get103ImgParkingFromTo" resultType="Analysis">
+		/* get103ImgParkingFromTo 쿼리 실행 */
+		<![CDATA[
+			SELECT CASE WHEN a.mdt IS NULL THEN CONCAT(TIMESTAMPDIFF(MINUTE, a.cdt, NOW()), '분째 주차중') END AS mdtNow, a.mdt, a.cdt
+			FROM(
+				SELECT ia.event_dt AS cdt, ia.lprnumber,
+					(SELECT
+						CASE
+							WHEN subia.lpr != '0001' THEN CONCAT(TIMESTAMPDIFF(MINUTE, ia.event_dt, subia.event_dt), '분동안 주차')
+							WHEN subia.lpr = '0001' THEN CONCAT(TIMESTAMPDIFF(MINUTE, ia.event_dt, subia.event_dt), '분째 주차중')
+						END AS mdt
+					FROM img_analysis subia
+					WHERE (subia.filename LIKE '__103%' AND ia.event_dt < subia.event_dt AND subia.lpr = '9999')
+					ORDER BY subia.event_dt ASC
+					LIMIT 1) AS mdt
+				FROM img_analysis ia
+				WHERE (ia.filename LIKE '__103%' AND ia.lpr != '9999' AND ia.event_dt >= DATE_ADD(NOW(), INTERVAL -1 DAY))
+				GROUP BY ia.lprnumber
+				ORDER BY ia.event_dt DESC
+				LIMIT 1
+			) a
+		]]>
+	</select>
+
+	<select id="get101ImgParkingFromToApi" resultType="Analysis">
+		/* get101ImgParkingFromTo 쿼리 실행 */
+		<![CDATA[
+		SELECT CASE WHEN a.mdt IS NULL THEN CONCAT(TIMESTAMPDIFF(MINUTE, a.cdt, NOW()), '분째 주차중') END AS mdtNow, a.mdt, a.cdt
+		FROM(
+				SELECT ia.event_dt AS cdt, ia.lprnumber,
+					   (SELECT
+							CASE
+								WHEN subia.lpr != '0001' THEN CONCAT(TIMESTAMPDIFF(MINUTE, ia.event_dt, subia.event_dt), '분동안 주차')
+								WHEN subia.lpr = '0001' THEN CONCAT(TIMESTAMPDIFF(MINUTE, ia.event_dt, subia.event_dt), '분째 주차중')
+								END AS mdt
+						FROM img_analysis subia
+						WHERE (subia.filename LIKE '__101%' AND ia.event_dt < subia.event_dt AND subia.lpr = '9999')
+						ORDER BY subia.event_dt ASC
+						LIMIT 1) AS mdt
+				FROM img_analysis ia
+				WHERE (ia.filename LIKE '__101%' AND ia.lpr != '9999' AND ia.event_dt >= DATE_ADD(NOW(), INTERVAL -1 DAY))
+				GROUP BY ia.lprnumber
+				ORDER BY ia.event_dt DESC
+				LIMIT 1
+			) a
+		]]>
+	</select>
+
+	<select id="get102ImgParkingFromToApi" resultType="Analysis">
+		/* get102ImgParkingFromTo 쿼리 실행 */
+		<![CDATA[
+		SELECT CASE WHEN a.mdt IS NULL THEN CONCAT(TIMESTAMPDIFF(MINUTE, a.cdt, NOW()), '분째 주차중') END AS mdtNow, a.mdt, a.cdt
+		FROM(
+				SELECT ia.event_dt AS cdt, ia.lprnumber,
+					   (SELECT
+							CASE
+								WHEN subia.lpr != '0001' THEN CONCAT(TIMESTAMPDIFF(MINUTE, ia.event_dt, subia.event_dt), '분동안 주차')
+								WHEN subia.lpr = '0001' THEN CONCAT(TIMESTAMPDIFF(MINUTE, ia.event_dt, subia.event_dt), '분째 주차중')
+								END AS mdt
+						FROM img_analysis subia
+						WHERE (subia.filename LIKE '__102%' AND ia.event_dt < subia.event_dt AND subia.lpr = '9999')
+						ORDER BY subia.event_dt ASC
+						LIMIT 1) AS mdt
+				FROM img_analysis ia
+				WHERE (ia.filename LIKE '__102%' AND ia.lpr != '9999' AND ia.event_dt >= DATE_ADD(NOW(), INTERVAL -1 DAY))
+				GROUP BY ia.lprnumber
+				ORDER BY ia.event_dt DESC
+				LIMIT 1
+			) a
+		]]>
+	</select>
+
+	<select id="get103ImgParkingFromToApi" resultType="Analysis">
+		/* get103ImgParkingFromTo 쿼리 실행 */
+		<![CDATA[
+		SELECT CASE WHEN a.mdt IS NULL THEN CONCAT(TIMESTAMPDIFF(MINUTE, a.cdt, NOW()), '분째 주차중') END AS mdtNow, a.mdt, a.cdt
+		FROM(
+				SELECT ia.event_dt AS cdt, ia.lprnumber,
+					   (SELECT
+							CASE
+								WHEN subia.lpr != '0001' THEN CONCAT(TIMESTAMPDIFF(MINUTE, ia.event_dt, subia.event_dt), '분동안 주차')
+								WHEN subia.lpr = '0001' THEN CONCAT(TIMESTAMPDIFF(MINUTE, ia.event_dt, subia.event_dt), '분째 주차중')
+								END AS mdt
+						FROM img_analysis subia
+						WHERE (subia.filename LIKE '__103%' AND ia.event_dt < subia.event_dt AND subia.lpr = '9999')
+						ORDER BY subia.event_dt ASC
+						LIMIT 1) AS mdt
+				FROM img_analysis ia
+				WHERE (ia.filename LIKE '__103%' AND ia.lpr != '9999' AND ia.event_dt >= DATE_ADD(NOW(), INTERVAL -1 DAY))
+				GROUP BY ia.lprnumber
+				ORDER BY ia.event_dt DESC
+				LIMIT 1
+			) a
+		]]>
+	</select>
+
+	<select id="get101ChartData" resultType="Analysis">
+		/* getChartData 쿼리 실행 */
+		<![CDATA[
+			SELECT a.*, IFNULL(ROUND(SUM(TIME_TO_SEC(TIMEDIFF(a.`to`, a.`from`))/60)/60), 0) AS `sumByDay`
+			FROM (
+				SELECT ia.filename, ia.lpr, ia.lprnumber, ia.event_dt AS `from`, DATE_FORMAT(ia.event_dt, '%Y-%m-%d') AS `chartDay`,
+					(SELECT subia.event_dt AS result
+					FROM img_analysis subia
+					WHERE subia.filename LIKE '__101%' AND ia.event_dt <= subia.event_dt AND subia.lpr = '9999'
+						AND DATE_FORMAT(ia.event_dt, '%Y-%m-%d') = DATE_FORMAT(subia.event_dt, '%Y-%m-%d')
+					LIMIT 1) AS `to`
+				FROM img_analysis ia
+				WHERE (ia.filename LIKE '__101%' AND ia.lpr != '9999')
+			) a
+			WHERE a.`chartDay` BETWEEN DATE_ADD(NOW(), INTERVAL -1 MONTH) AND NOW()
+			GROUP BY a.`chartDay`
+			ORDER BY `chartDay` DESC
+		]]>
+	</select>
+
+	<select id="get102ChartData" resultType="Analysis">
+		/* getChartData 쿼리 실행 */
+		<![CDATA[
+			SELECT a.*, IFNULL(ROUND(SUM(TIME_TO_SEC(TIMEDIFF(a.`to`, a.`from`))/60)/60), 0) AS `sumByDay`
+			FROM (
+				SELECT ia.filename, ia.lpr, ia.lprnumber, ia.event_dt AS `from`, DATE_FORMAT(ia.event_dt, '%Y-%m-%d') AS `chartDay`,
+					(SELECT subia.event_dt AS result
+					FROM img_analysis subia
+					WHERE subia.filename LIKE '__102%' AND ia.event_dt <= subia.event_dt AND subia.lpr = '9999'
+					AND DATE_FORMAT(ia.event_dt, '%Y-%m-%d') = DATE_FORMAT(subia.event_dt, '%Y-%m-%d')
+					LIMIT 1) AS `to`
+				FROM img_analysis ia
+				WHERE (ia.filename LIKE '__102%' AND ia.lpr != '9999')
+			) a
+			WHERE a.`chartDay` BETWEEN DATE_ADD(NOW(), INTERVAL -1 MONTH) AND NOW()
+			GROUP BY a.`chartDay`
+			ORDER BY `chartDay` DESC
+		]]>
+	</select>
+
+	<select id="get103ChartData" resultType="Analysis">
+		/* getChartData 쿼리 실행 */
+		<![CDATA[
+			SELECT a.*, IFNULL(ROUND(SUM(TIME_TO_SEC(TIMEDIFF(a.`to`, a.`from`))/60)/60), 0) AS `sumByDay`
+			FROM (
+				SELECT ia.filename, ia.lpr, ia.lprnumber, ia.event_dt AS `from`, DATE_FORMAT(ia.event_dt, '%Y-%m-%d') AS `chartDay`,
+					(SELECT subia.event_dt AS result
+					FROM img_analysis subia
+					WHERE subia.filename LIKE '__103%' AND ia.event_dt <= subia.event_dt AND subia.lpr = '9999'
+					AND DATE_FORMAT(ia.event_dt, '%Y-%m-%d') = DATE_FORMAT(subia.event_dt, '%Y-%m-%d')
+					LIMIT 1) AS `to`
+				FROM img_analysis ia
+				WHERE (ia.filename LIKE '__103%' AND ia.lpr != '9999')
+			) a
+			WHERE a.`chartDay` BETWEEN DATE_ADD(NOW(), INTERVAL -1 MONTH) AND NOW()
+			GROUP BY a.`chartDay`
+			ORDER BY `chartDay` DESC
+		]]>
+	</select>
+</mapper>
